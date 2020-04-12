@@ -22,6 +22,7 @@ public class ContentFilter implements Filter<String> {
     private static final List<String> TAG_FORMATTING = Arrays.asList("i", "b", "font", "em", "small", "mark", "del", "ins", "sub", "sup", "strong");
     private static final List<String> TAG_HEADING = Arrays.asList("h1", "h2", "h3", "h4", "h5", "h6");
     private static final List<String> TAG_IMAGE = Arrays.asList("figure", "img", "figcaption");
+    private static final List<String> BLOCKQUOTE = Arrays.asList("blockquote");
     public static final String CONTENT_ID = "main-content";
 
     private final int blocMinLen;
@@ -57,12 +58,11 @@ public class ContentFilter implements Filter<String> {
                         link.remove();
                     }
                 }
-
                 cleanup(elt);
 
-                /* test */
+
                 final String tagName = elt.tagName();
-                if (TAG_HEADING.contains(tagName) || TAG_IMAGE.contains(tagName)){
+                if (TAG_HEADING.contains(tagName) || TAG_IMAGE.contains(tagName) || BLOCKQUOTE.contains(tagName)){
                     return true;
                 } else {
                     return !"a".equals(tagName)

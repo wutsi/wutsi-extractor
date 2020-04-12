@@ -181,18 +181,4 @@ public class SanitizeFilterTest {
         }
     }
 
-    @Test
-    public void shouldFilterSocialLinks() throws Exception {
-        // Given
-        final String html = IOUtils.toString(getClass().getResourceAsStream("/extractor/sanitize_social-links.html"));
-
-        // When
-        final String result = filter.filter(html);
-
-        // Then
-        final Document doc = Jsoup.parse(result);
-        assertThat(doc.body().text().trim())
-                .startsWith(
-                        "Des jeunes gens qui scrutent le  babillard.  A  l’aide  d’un stylo et d’un calepin, ils recopient  leur  emploi  du temps. Tandis que les plus futés ont préféré troquer une pièce de 100 F contre un exemplaire. « Je vais as- sister à mes premiers cours d’Allemand dans l’après-midi (Ndlr : hier) dans l’amphi A 203. Je me sens à l’aise, même si j’éprouve quelques difficultés à me retrouver parce que l’université  est  grande.");
-    }
 }

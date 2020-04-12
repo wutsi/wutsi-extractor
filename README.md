@@ -2,4 +2,4 @@
 
 ![](https://github.com/wutsi/wutsi-extractory/workflows/build/badge.svg)
 ![](https://img.shields.io/badge/jdk-1.8-brightgreen.svg)
-![](https://img.shields.io/badge/language-kotlin-blue.svg)
+![](https://img.shields.io/badge/language-java-blue.svg)

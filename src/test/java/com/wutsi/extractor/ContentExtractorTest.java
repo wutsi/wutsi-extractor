@@ -2,7 +2,6 @@ package com.wutsi.extractor;
 
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,16 +28,5 @@ public class ContentExtractorTest {
 
         // Then
         assertThat(extractor.extract("hello world")).isEqualTo("c");
-    }
-
-    @Test
-    public void testKamerKongossa() throws Exception {
-        extract("https://kamerkongossa.cm/2020/01/07/a-yaounde-on-rencontre-le-sous-developpement-par-les-chemins-quon-emprunte-pour-leviter/");
-    }
-
-    private void extract(String url) throws Exception {
-        String html = ContentExtractor.create().extract(new URL(url));
-        System.out.println(html);
-
     }
 }
