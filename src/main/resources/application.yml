@@ -1,0 +1,236 @@
+kiosk:
+  namespace: "io.tchepannou"
+
+  aws:
+    connectionTimeout: 30000
+    maxErrorRetries: 5
+    service:
+      FileRepository:
+        bucket: "${kiosk.namespace}.kiosk"
+    queue:
+      UrlMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-url-queue"
+      MetadataMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-metadata-queue"
+      ContentMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-content-queue"
+      ValidationMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-validation-queue"
+      TagMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-tag-queue"
+      ImageMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-image-queue"
+      ThumbnailMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-thumbnail-queue"
+      VideoMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-video-queue"
+      PublishMessageQueue:
+        url: "https://sqs.us-east-1.amazonaws.com/828725992074/kiosk-publish-queue"
+
+  local:
+    home: "${user.home}/kiosk"
+    service:
+      FileRepository:
+        home: "${kiosk.local.home}/repository"
+    queue:
+      home: "${kiosk.local.home}/queues"
+      UrlMessageQueue:
+        home: "${kiosk.local.queue.home}/url"
+      MetadataMessageQueue:
+        home: "${kiosk.local.queue.home}/metadata"
+      ContentMessageQueue:
+        home: "${kiosk.local.queue.home}/content"
+      ValidationMessageQueue:
+        home: "${kiosk.local.queue.home}/validation"
+      TagMessageQueue:
+        home: "${kiosk.local.queue.home}/tag"
+      ImageMessageQueue:
+        home: "${kiosk.local.queue.home}/image"
+      ThumbnailMessageQueue:
+        home: "${kiosk.local.queue.home}/thumbnail"
+      VideoMessageQueue:
+        home: "${kiosk.local.queue.home}/video"
+      PublishMessageQueue:
+        home: "${kiosk.local.queue.home}/publish"
+
+  step:
+    DownloadConsumer:
+      folder: "${kiosk.environment}/html"
+    MetadataConsumer:
+      defaultPublishDateOffsetDays: -7
+    ContentConsumer:
+      defaultSummaryMaxLength: 255
+      rawFolder: "${kiosk.environment}/html"
+      contentFolder: "${kiosk.environment}/content"
+    ImageConsumer:
+      rawFolder: "${kiosk.environment}/html"
+      imageFolder: "${kiosk.environment}/image"
+    VideoConsumer:
+      providers:
+        youtube:
+          apiKey: "AIzaSyCzoYC2SE4b8IRKlsfR9H5fKZLv8v8mwZU"
+    ThumbnailConsumer:
+      width: 440
+      height:  220
+
+  executor:
+    poolSize: 200
+
+  validation:
+    minContentLength: 100
+
+  service:
+    PipelineService:
+      workers: 1
+      maxDurationSeconds: 2100            # 35 mins
+      autostart: false
+      reprocessKey: "${kiosk.environment}/reprocess/go"
+
+    LanguageDetector:
+      languageList:
+        - "en"
+        - "fr"
+
+    Delay:
+      sleepMillis:    60000   # 1 min
+      maxSleepMillis: 600000  # 10 mins
+
+    UrlService:
+      blacklist:
+      - "*.pdf"         # PDF
+      - "*.rss"         # RSS feeds
+      - "*/feed"
+      - "*/feed/rss*"
+      - "*/rss.php"
+      - "*/wp-login*"   # Wordpress login
+      - "*#*"           # URL with anchor
+      - "*phpsessid=*"
+      - "*/about"
+      - "*/about-us"
+      - "*/contact"
+      - "*/shop"
+      - "*/[0-9]{4}/[0-9]{2}"                           # Monthly Archives
+      - "*/[0-9]{4}/[0-9]{2}/[0-9]{2}"                  # Archives
+      - "http://www.mamafrika.tv/blog/category/*"       # MamAfrika.tv
+      - "http://www.237online.com/publications-du-*"    # 237 online
+      - "https://lefilmcamerounais.com/category/*"      # Le Film Camerounais
+      - "http://okabolmedia.com/category/*"             # Okabol Media
+      - "http://achouka.mondoblog.org/tag/*"            # MondoBlog
+      - "http://mondoblog.org/author/*"
+      - "http://mondoblog.org/category/*"
+      - "http://mamymuna.com/contact/"                  # Contact
+      - "http://mamymuna.com/contribuer/"
+      - "http://mamymuna.com/about/"
+      - "http://mamymuna.com/members/"
+      - "http://mamymuna.com/groupes/"
+      - "http://mamymuna.com/inscriptions/"
+      - "http://www.camerpost.com/page/*"              # CamerPost
+      - "http://www.camerpost.com/tag/*"
+      - "http://www.camerpost.com/category/*"
+      - "http://www.etoudiblog.com/search/*"           # EtoudiBlog
+      - "http://www.etoudiblog.com/p/*"
+      - "http://bamendaonline.net/blog/category/*"         # BamendaOnline
+      - "http://bamendaonline.net/blog/author/*"
+      - "http://www.cameroun-online.com/fr/rubriques/*"    # CameronOnline
+      - "http://www.cameroun-online.com/fr/étiquettes/*"
+      - "http://www.cameroun-online.com/fr/node?page*"
+      - "http://www.cameroun-online.com/node/*"
+      - "http://www.aucunlait.net/feature"
+      - "http://www.aucunlait.net/lifestyle"
+      - "http://www.aucunlait.net/decouverte"
+      - "http://www.aucunlait.net/reaction/*"
+      - "http://www.aucunlait.net/members/*"
+      - "http://www.aucunlait.net/category/*"
+      - "http://www.aucunlait.net/gossips237"
+      - "http://www.aucunlait.net/password-lost"
+      - "http://www.aucunlait.net/terms"
+      - "http://actucameroun.com/category/*"               # Actu Cameroon
+      - "https://dailyretrocmr.wordpress.com/tag/*"        # Daily Retro CMR
+      - "https://dailyretrocmr.wordpress.com/page/*"
+      - "https://dailyretrocmr.wordpress.com/category/*"
+      - "https://www.lebledparle.com/component/tags/*"     # LeBledParle
+      - "http://www.camer24.de/live-tchat-buzz"            # camer24.de
+      - "http://www.camer24.de/mboa-actu/*"
+      - "http://www.camer.be/index.php*"                   # camer.be
+      - "http://thehotjem.com/category/*"                  # thehotdjem
+      - "http://thehotjem.com/page/*"
+      - "http://thehotjem.com/tag/*"
+      - "http://cameroon-concord.com/?start=*"             # cameroon-concord
+      - "http://cameroon-concord.com/?format=feed"
+      - "http://madeinmboa.net/category/*"                 # madeinmboa
+      - "http://www.ckomentpublishing.com/category/*"      # C'Koment Magazine
+      - "http://www.ticmag.net/category/*"                 # TIC Mag
+      - "http://www.ticmag.net/page/*"
+      - "http://www.ticmag.net/textes-documents"
+      - "http://www.ticmag.net/video2"
+      - "http://www.ticmag.net/contact-2"
+      - "http://www.dailynewscameroon.com/category/*"       # Daily News Cameroon
+      - "http://journalducameroun.com/category/*"           # Journal du Cameroun
+      - "http://www.sparkcameroun.com/?p=*"                 # sparkcameroun
+      - "http://www.sparkcameroun.com/category/*"           # sparkcameroun
+      - "http://www.thara.tv/category/*"                    # thara.tv
+      - "http://www.thara.tv/tag/*"
+      - "http://www.thara.tv/page/*"
+      - "http://www.thara.tv/notre-vision"
+      - "http://www.thara.tv/le-concept"
+      - "http://www.thara.tv/promoteur"
+      - "http://www.thara.tv/accueil"
+      - "http://www.thara.tv/galerie"
+      - "http://www.thara.tv/authors"
+      - "http://www.thara.tv/les-programmes"
+      - "http://www.thara.tv/partenaires"
+      - "http://www.thara.tv/contacts"
+      - "http://www.jewanda-magazine.com/theme/*"         # Jewanda - Magazine
+
+
+spring:
+  datasource:
+    poolName: Kiosk.CP
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/kiosk
+    username: root
+    #password:
+    connectionTimeout: 30000
+    connectionTestQuery: SELECT 1
+    maximumPoolSize: 20
+    idleTimeout: 15000
+    maxLifetime: 60000
+    leakDetectionThreshold: 30000
+    dataSourceProperties:
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+
+swagger:
+  version: "1.0"
+  title: Kiosk Processing Pipeline
+  description: "Process Kiosk Messages"
+  termsPath: ""
+  email: "herve.tchepannou@gmail.com"
+  licenceType: ""
+  licencePath: "#"
+
+server:
+  port: 8081
+
+endpoints:
+  enabled: true
+  health:
+    sensitive: false
+  info:
+    sensitive: false
+  metrics:
+    sensitive: false
+
+logging:
+  level:
+    root: INFO
+    io.tchepannou.kiosk: INFO
+    com.amazonaws: WARN
+    org: WARN
+    io: WARN
+    springfix: WARN
+
+  pattern:
+    console: "%d Type=%level Logger=%c Thread=%thread Message='%m'%n"
+    file: "%d Type=%level Logger=%c Thread=%thread Message='%m'%n"
