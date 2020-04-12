@@ -20,9 +20,7 @@
         <commons-io.version>2.4</commons-io.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-lang.version>3.4</commons-lang.version>
-        <httpclient.version>4.5.1</httpclient.version>
         <jsoup.version>1.8.3</jsoup.version>
-        <tika.version>1.4</tika.version>
 
         <junit.version>4.12</junit.version>
         <assertj.version>3.0.0</assertj.version>
@@ -51,11 +49,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
-            <version>${tika.version}</version>
         </dependency>
 
         <!-- TEST -->
