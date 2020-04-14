@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * Extract main content
+ * Extract main content.
+ * Implementation of https://rodricios.github.io/eatiht/#the-original-algorithm
  */
 public class ContentFilter implements Filter<String> {
     //-- Attributes
