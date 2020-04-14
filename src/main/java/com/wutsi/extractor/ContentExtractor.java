@@ -2,7 +2,6 @@ package com.wutsi.extractor;
 
 import com.wutsi.extractor.filter.ContentFilter;
 import com.wutsi.extractor.filter.SanitizeFilter;
-import com.wutsi.extractor.filter.TrimFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,11 +13,10 @@ public class ContentExtractor {
         this.filters = filters;
     }
 
-    public static ContentExtractor create()  {
+    public static ContentExtractor create(int blocMinLen)  {
         return new ContentExtractor(Arrays.asList(
                 new SanitizeFilter(),
-                new ContentFilter(1),
-                new TrimFilter()
+                new ContentFilter(blocMinLen)
         ));
     }
 

@@ -3138,7 +3138,7 @@
         for( var j=0; j < urlFields.length; j++ ) {
             addEventListener(urlFields[j],'blur',maybePrefixUrlField);
         }
-    }/* test if browser supports date fields */
+    }/* validateText if browser supports date fields */
     var testInput = document.createElement('input');
     testInput.setAttribute('type', 'date');
     if( testInput.type !== 'date') {

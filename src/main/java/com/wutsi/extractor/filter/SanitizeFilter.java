@@ -1,132 +1,118 @@
 package com.wutsi.extractor.filter;
 
 import com.wutsi.extractor.Filter;
-import com.wutsi.extractor.util.HtmlHelper;
 import com.wutsi.extractor.util.JsoupHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Remove polluting tags like SCRIPT, IMAGES, etc.
  */
 public class SanitizeFilter implements Filter<String> {
-    //-- Static
-    public static final String[] TAG_WHITELIST =
-            "a,b,blockquote,body,br,caption,cite,code,col,colgroup,dd,div,dl,dt,em,figure,figcaption,footer,h1,h2,h3,h4,h5,h6,i,img,li,ol,p,pre,q,small,span,strike,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,u,ul"
-                    .split(",");
-    public static final String[] CSS_BLACKLIST = new String[]{
+    private static final List<String> ID_CSS_BLACKLIST = Arrays.asList(
             "footer",
-            "#footer",
-            "#comments",
-            ".comments",
-            ".mashsb-container",     // from www.mashshare.net plugin
-            ".prev-page",
-            ".next-page",
-            "#menu-ay-side-menu-mine",
-            "#top-nav",
-            "#related_posts",
-            ".related_posts",
-            ".share-post"
-    };
+            "comments",
+            "menu-ay-side-menu-mine",
+            "mashsb-container",
+            "top-nav",
+            "related_posts",
+            "share-post",
+            "navbar",
+            "nav",
+            "addthis_tool"
+    );
+    private static List<String> TAG_BLACKLIST = Arrays.asList(
+            "head",
+            "style",
+            "script",
+            "nav",
+            "iframe",
+            "noscript"
+    );
 
-    private final Whitelist whitelist;
-
-    public SanitizeFilter() {
-        this(Arrays.asList(TAG_WHITELIST));
-    }
-
-    public SanitizeFilter(final List<String> tags) {
-        whitelist = createWhitelist(tags.toArray(new String[]{}));
-        whitelist.addAttributes("a", "href");
-        whitelist.addAttributes("iframe", "src");
-        whitelist.addAttributes("img", "src");
-    }
 
     //-- TextFilter overrides
     @Override
     public String filter(final String html) {
 
-        /* pre-clean */
-        Document doc = Jsoup.parse(html);
-        final Set<Element> items = new HashSet<>();
-        collectTitle(doc.body(), items);
-        collectBlaclistCss(doc.body(), items);
-        removeAll(items);
+        final Document doc = Jsoup.parse(html);
 
-        /* keep only whitelist */
-        final String xhtml = Jsoup.clean(doc.html(), this.whitelist);
+        JsoupHelper.removeComments(doc.body());
+        JsoupHelper.remove(doc, (i) -> reject(i));
+        JsoupHelper.visit(doc, (i) -> empty(i));
+        JsoupHelper.visit(doc, (i) -> cleanup(i));
 
-        /* post-clean */
-        doc = Jsoup.parse(xhtml);
-        cleanup(doc);
 
         return doc.html();
     }
 
-    private Whitelist createWhitelist(final String... tags) {
-        final Whitelist wl = new Whitelist();
-        wl.addTags(tags);
-        for (final String tag : tags) {
-            wl.addAttributes(tag, "id");
-        }
-        return wl;
+    private boolean cleanup(Element elt) {
+        elt.removeAttr("id");
+        elt.removeAttr("class");
+        elt.removeAttr("style");
+        elt.removeAttr("onclick");
+
+        return true;
     }
 
-    private void collectBlaclistCss(final Element node, final Collection<Element> items) {
-        for (final String css : CSS_BLACKLIST) {
-            items.addAll(node.select(css));
-        }
+    private boolean reject(Element elt) {
+        return TAG_BLACKLIST.contains(elt.tagName())
+                || isSocialLink(elt)
+                || isBlacklistedClassOrId(elt)
+                || isMenuItem(elt)
+        ;
     }
 
     private boolean isSocialLink(final Element elt) {
-        return "a".equalsIgnoreCase(elt.tagName()) && isSocialLink(elt.attr("href"));
-    }
-
-    private boolean isSocialLink(final String href) {
-        if (href == null) {
+        if (!"a".equals(elt.tagName())){
             return false;
         }
-        return href.startsWith("https://twitter.com/intent/tweet") ||
-                href.startsWith("http://www.facebook.com/sharer.php") ||
-                href.startsWith("https://plusone.google.com") ||
-                href.startsWith("http://www.linkedin.com/shareArticle") ||
-                href.startsWith("http://pinterest.com/pin/create/button")
-                ;
+
+        String href = elt.attr("href");
+        return href.contains("twitter.com/intent/tweet") ||
+                href.contains("twitter.com/share") ||
+                href.contains("facebook.com/share.php") ||
+                href.contains("facebook.com/sharer.php") ||
+                href.contains("plus.google.com/share") ||
+                href.contains("linkedin.com/shareArticle") ||
+                href.contains("linkedin.com/cws/share") ||
+                href.contains("pinterest.com/pin/create/button")
+        ;
     }
 
-    private boolean isEmpty(final Element elt) {
-        return !elt.hasText() && elt.children().isEmpty() && !elt.tag().isEmpty();
-    }
+    private boolean isMenuItem(final Element elt) {
+        Elements children = elt.children();
+        if (children.isEmpty()){
+            return false;
+        }
 
-    private void cleanup(final Element node) {
-        final JsoupHelper.Visitor<Element> visitor = elt -> {
-            if (elt.parent() != null && (isSocialLink(elt) || isEmpty(elt))) {
-                elt.remove();
+        for (Element child : elt.children()) {
+            if (!"a".equals(child.tagName())) {
+                return false;
             }
-        };
-
-        JsoupHelper.visit(node, visitor);
+        }
+        return true;
     }
 
-    private void collectTitle(final Element node, final Collection<Element> items) {
-        for (final String selector : HtmlHelper.TITLE_CSS_SELECTORS) {
-            final Elements elts = node.select(selector);
-            items.addAll(elts);
+    private boolean isBlacklistedClassOrId(Element elt) {
+        for (String clazz : elt.classNames()){
+            if (ID_CSS_BLACKLIST.contains(clazz.toLowerCase())){
+                return true;
+            }
         }
+        return ID_CSS_BLACKLIST.contains(elt.attr("id").toLowerCase());
     }
 
-    private void removeAll(final Collection<Element> items) {
-        for (final Element item : items) {
-            item.remove();
+    private boolean empty(final Element elt) {
+        if (!elt.hasText() && elt.children().isEmpty()){
+            elt.remove();
+            return true;
         }
+        return false;
     }
 }

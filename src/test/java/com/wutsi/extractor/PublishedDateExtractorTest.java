@@ -18,7 +18,7 @@ public class PublishedDateExtractorTest {
 
     @Test
     public void testOpenGraph() throws Exception{
-        String html = load("/extractor/published_opengraph.html");
+        String html = load("/published/opengraph.html");
         Date date = extractor.extract(html);
         DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -28,13 +28,13 @@ public class PublishedDateExtractorTest {
 
     @Test
     public void testBadFormat() throws Exception{
-        String html = load("/extractor/published_bad-format.html");
+        String html = load("/published/bad-format.html");
         assertNull(extractor.extract(html));
     }
 
     @Test
     public void testNone() throws Exception{
-        String html = load("/extractor/published_none.html");
+        String html = load("/published/none.html");
         assertNull(extractor.extract(html));
     }
 

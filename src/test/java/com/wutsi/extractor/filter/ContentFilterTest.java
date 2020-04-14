@@ -1,36 +1,27 @@
 package com.wutsi.extractor.filter;
 
-import org.apache.commons.io.IOUtils;
-import org.jsoup.Jsoup;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class ContentFilterTest {
-    private final ContentFilter filter = new ContentFilter(100);
+public class ContentFilterTest extends AbstractFilterTest {
+    private final ContentFilter filter = new ContentFilter();
 
     @Test
-    public void shouldFilter() throws Exception {
-        testFilter("default");
+    public void simple() throws Exception {
+        validateText("/content/simple", filter);
     }
-
 
     @Test
-    public void shouldFilterMboaFootball() throws Exception {
-        testFilter("mboafootball");
+    public void style() throws Exception {
+        validateText("/content/style", filter);
     }
 
-    private void testFilter(final String name) throws Exception {
-        // Given
-        final String html = IOUtils.toString(getClass().getResourceAsStream("/extractor/content_" + name + ".html"));
-        final String expected = IOUtils.toString(getClass().getResourceAsStream("/extractor/content_" + name + "_filtered.html"));
+    @Test
+    public void quote() throws Exception {
+        validateText("/content/quote", filter);
+    }
 
-        // When
-        final String result = filter.filter(html);
-
-        // Then
-        final String resultText = Jsoup.parse(result).text();
-        final String expectedText = Jsoup.parse(expected).text();
-        assertThat(resultText).isEqualTo(expectedText);
+    @Test
+    public void figure() throws Exception {
+        validateText("/content/figure", filter);
     }
 }
