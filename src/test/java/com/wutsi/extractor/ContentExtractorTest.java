@@ -1,32 +1,27 @@
 package com.wutsi.extractor;
 
+import com.wutsi.extractor.filter.AbstractFilterTest;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-public class ContentExtractorTest {
+public class ContentExtractorTest extends AbstractFilterTest {
+    ContentExtractor extractor = ContentExtractor.create(20);
 
     @Test
-    public void shouldExtractContent() throws Exception {
-        // Given
-        final Filter f1 = mock(Filter.class);
-        when(f1.filter(any())).thenReturn("a");
+    public void kamerkongossa() throws Exception {
+        test("/extractor/kamerkongossa");
+    }
 
-        final Filter f2 = mock(Filter.class);
-        when(f2.filter(any())).thenReturn("b");
+    @Test
+    public void ntrjack() throws Exception {
+        test("/extractor/ntrjack");
+    }
 
-        final Filter f3 = mock(Filter.class);
-        when(f3.filter(any())).thenReturn("c");
+    @Test
+    public void monquotidien() throws Exception {
+        test("/extractor/monquotidien");
+    }
 
-        // When
-        final ContentExtractor extractor = new ContentExtractor(Arrays.asList(f1, f2, f3));
-
-        // Then
-        assertThat(extractor.extract("hello world")).isEqualTo("c");
+    private void test(String path) throws Exception{
+        super.validateHtml(path, (s) -> extractor.extract(s));
     }
 }
