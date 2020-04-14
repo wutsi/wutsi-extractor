@@ -32,7 +32,9 @@ public class SanitizeFilter implements Filter<String> {
             "script",
             "nav",
             "iframe",
-            "noscript"
+            "noscript",
+            "header",
+            "footer"
     );
 
 
