@@ -1,5 +1,0 @@
-kiosk:
-  environment: dev
-  service:
-    PipelineService:
-      autostart: true
