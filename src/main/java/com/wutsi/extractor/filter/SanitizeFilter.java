@@ -5,7 +5,6 @@ import com.wutsi.extractor.util.JsoupHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +23,8 @@ public class SanitizeFilter implements Filter<String> {
             "share-post",
             "navbar",
             "nav",
-            "addthis_tool"
+            "addthis_tool",
+            "sidebar"
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
             "head",
@@ -34,7 +34,8 @@ public class SanitizeFilter implements Filter<String> {
             "iframe",
             "noscript",
             "header",
-            "footer"
+            "footer",
+            "aside"
     );
 
 
@@ -65,8 +66,9 @@ public class SanitizeFilter implements Filter<String> {
     private boolean reject(Element elt) {
         return TAG_BLACKLIST.contains(elt.tagName())
                 || isSocialLink(elt)
+                || isTagLink(elt)
                 || isBlacklistedClassOrId(elt)
-                || isMenuItem(elt)
+                || isMenu(elt)
         ;
     }
 
@@ -87,18 +89,40 @@ public class SanitizeFilter implements Filter<String> {
         ;
     }
 
-    private boolean isMenuItem(final Element elt) {
-        Elements children = elt.children();
-        if (children.isEmpty()){
+    private boolean isMenu(final Element elt) {
+        if (isLink(elt)){
             return false;
         }
 
-        for (Element child : elt.children()) {
-            if (!"a".equals(child.tagName())) {
-                return false;
+        Element clone = elt.clone();
+        JsoupHelper.remove(clone, (i) -> isLink(i));
+        return clone.text().trim().isEmpty();
+    }
+
+    private boolean isTagLink(Element elt) {
+        if (!isLink(elt)) {
+            return false;
+        }
+        return elt.hasClass("tag") || hasRel(elt, "tag");
+    }
+
+    private boolean hasRel(Element elt, String value) {
+        String rel = elt.attr("rel");
+        if (rel.isEmpty()){
+            return false;
+        }
+
+        String[] parts = rel.split("\\s");
+        for (String part: parts) {
+            if (part.equalsIgnoreCase(value)) {
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    private boolean isLink(Element elt) {
+        return "a".equals(elt.tagName());
     }
 
     private boolean isBlacklistedClassOrId(Element elt) {
