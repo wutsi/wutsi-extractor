@@ -90,7 +90,7 @@ public class SanitizeFilter implements Filter<String> {
     }
 
     private boolean isMenu(final Element elt) {
-        if (isLink(elt)){
+        if (isLink(elt) || elt.tag().isInline()){
             return false;
         }
 
@@ -135,7 +135,7 @@ public class SanitizeFilter implements Filter<String> {
     }
 
     private boolean empty(final Element elt) {
-        if (!elt.hasText() && elt.children().isEmpty()){
+        if (elt.tag().isBlock() && !elt.hasText() && elt.children().isEmpty()){
             elt.remove();
             return true;
         }
