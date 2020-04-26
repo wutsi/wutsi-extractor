@@ -24,6 +24,7 @@ public class SanitizeFilter implements Filter<String> {
             "navbar",
             "nav",
             "addthis_tool",
+            "embedly-card",
             "sidebar"
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
