@@ -24,30 +24,6 @@ public class TagExtractorTest {
     }
 
     @Test
-    public void testClass() throws Exception{
-        String html = load("/tag/class.html");
-        List<String> tags = extractor.extract(html);
-        assertEquals(5, tags.size());
-        assertTrue(tags.contains("adultère"));
-        assertTrue(tags.contains("amour"));
-        assertTrue(tags.contains("couple"));
-        assertTrue(tags.contains("fidélité"));
-        assertTrue(tags.contains("Infidélité"));
-    }
-
-    @Test
-    public void testRel() throws Exception{
-        String html = load("/tag/rel.html");
-        List<String> tags = extractor.extract(html);
-        assertEquals(5, tags.size());
-//        assertTrue(tags.contains("Entrepreneuriat"));
-//        assertTrue(tags.contains("Workflow"));
-//        assertTrue(tags.contains("Jokkolabs Douala"));
-//        assertTrue(tags.contains("Tourisme et voyages"));
-//        assertTrue(tags.contains("Podcast"));
-    }
-
-    @Test
     public void testNone() throws Exception{
         String html = load("/tag/none.html");
         List<String> tags = extractor.extract(html);
