@@ -21,6 +21,11 @@ public class ContentExtractorTest extends AbstractFilterTest {
         test("/extractor/monquotidien");
     }
 
+    @Test
+    public void yohedahealth() throws Exception {
+        test("/extractor/yohedahealth");
+    }
+
     private void test(String path) throws Exception{
         super.validateHtml(path, (s) -> extractor.extract(s));
     }

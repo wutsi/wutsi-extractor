@@ -91,13 +91,18 @@ public class SanitizeFilter implements Filter<String> {
     }
 
     private boolean isMenu(final Element elt) {
-        if (isLink(elt) || elt.tag().isInline()){
+        if (isLink(elt) || elt.tag().isInline() || isImage(elt)){
             return false;
         }
 
         Element clone = elt.clone();
         JsoupHelper.remove(clone, (i) -> isLink(i));
         return clone.text().trim().isEmpty();
+    }
+
+    private boolean isImage(Element elt) {
+        String tagName = elt.tagName();
+        return "figure".equalsIgnoreCase(tagName) || "img".equalsIgnoreCase(tagName);
     }
 
     private boolean isTagLink(Element elt) {
