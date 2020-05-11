@@ -36,7 +36,8 @@ public class SanitizeFilter implements Filter<String> {
             "noscript",
             "header",
             "footer",
-            "aside"
+            "aside",
+            "form"
     );
 
 
