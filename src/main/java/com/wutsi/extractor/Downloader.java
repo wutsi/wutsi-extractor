@@ -1,5 +1,6 @@
 package com.wutsi.extractor;
 
+import com.wutsi.extractor.util.HttpHelper;
 import org.jsoup.Jsoup;
 
 import javax.net.ssl.SSLContext;
@@ -13,12 +14,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 public class Downloader {
-    private static final String USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1";
-
     public String download(URL url) throws IOException {
         return Jsoup
                 .connect(url.toString())
-                .userAgent(USER_AGENT)
+                .userAgent(HttpHelper.USER_AGENT)
                 .sslSocketFactory(socketFactory())
                 .ignoreHttpErrors(false)
                 .get()

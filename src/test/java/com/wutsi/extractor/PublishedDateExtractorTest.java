@@ -41,4 +41,5 @@ public class PublishedDateExtractorTest {
     private String load(String path) throws IOException {
         InputStream in = getClass().getResourceAsStream(path);
         return IOUtils.toString(in);
-    }}
+    }
+}
