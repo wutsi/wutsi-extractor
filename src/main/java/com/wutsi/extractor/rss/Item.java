@@ -14,6 +14,7 @@ public class Item {
     private String country;
     private String content;
     private Date publishedDate;
+    private String author;
 
     //-- Getter/Setter
     public String getLink() {
@@ -82,5 +83,13 @@ public class Item {
 
     public void addCategory(String category) {
         categories.add(category);
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
