@@ -37,5 +37,4 @@ public class RSSLoaderTest {
         assertEquals("herve tcheps", items.get(8).getAuthor());
         assertEquals(null, items.get(9).getAuthor());
     }
-
 }
