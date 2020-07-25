@@ -26,6 +26,15 @@ public class RSSLoaderTest {
         assertEquals("https://mapanes.fsquarecorporation.com/2020/03/11/devenir-community-manager/", items.get(7).getLink());
         assertEquals("https://mapanes.fsquarecorporation.com/2020/03/10/laudit-est-la-base-de-tout/", items.get(8).getLink());
         assertEquals("https://mapanes.fsquarecorporation.com/2020/03/09/connaitre-les-fondamentaux-du-seo/", items.get(9).getLink());
+        assertEquals("Willy christian", items.get(0).getAuthor());
+        assertEquals("Hello world", items.get(1).getAuthor());
+        assertEquals("Hello world", items.get(2).getAuthor());
+        assertEquals("Batalong College", items.get(3).getAuthor());
+        assertEquals("ken le survivan", items.get(4).getAuthor());
+        assertEquals("Batalong College", items.get(5).getAuthor());
+        assertEquals("TIFOS", items.get(6).getAuthor());
+        assertEquals("TIFOS", items.get(7).getAuthor());
+        assertEquals("herve tcheps", items.get(8).getAuthor());
+        assertEquals(null, items.get(9).getAuthor());
     }
-
 }

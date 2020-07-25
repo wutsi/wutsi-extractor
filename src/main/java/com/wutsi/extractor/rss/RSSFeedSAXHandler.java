@@ -78,6 +78,10 @@ public class RSSFeedSAXHandler extends DefaultHandler {
                 item.addCategory(text.toString());
                 break;
 
+            case "author":
+                item.setAuthor(text.toString());
+                break;
+
             case "pubdate":
                 try {
                     item.setPublishedDate(dateFormat.parse(text.toString()));
