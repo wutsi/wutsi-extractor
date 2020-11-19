@@ -17,6 +17,7 @@ public class RSSLoaderTest {
 
         assertEquals(10, items.size());
         assertEquals("https://mapanes.fsquarecorporation.com/2020/05/06/voici-venu-le-temps-des-mutations/", items.get(0).getLink());
+        assertEquals("https://mapanes.fsquarecorporation.com/2020/05/06/foo.png", items.get(0).getImageUrls().get(0));
         assertEquals("https://mapanes.fsquarecorporation.com/2020/05/04/choisir-ses-influenceurs-sur-linkedin-avec-linkalyze/", items.get(1).getLink());
         assertEquals("https://mapanes.fsquarecorporation.com/2020/04/30/7-outils-gratuits-de-gestion-de-projets/", items.get(2).getLink());
         assertEquals("https://mapanes.fsquarecorporation.com/2020/04/10/rester-a-la-maison-mais-travailler-efficacement/", items.get(3).getLink());

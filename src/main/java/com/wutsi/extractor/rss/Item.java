@@ -15,6 +15,7 @@ public class Item {
     private String content;
     private Date publishedDate;
     private String author;
+    private List<String> imageUrls = new ArrayList<>();
 
     //-- Getter/Setter
     public String getLink() {
@@ -91,5 +92,17 @@ public class Item {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(final List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public void addImageUrl(String url){
+        imageUrls.add(url);
     }
 }

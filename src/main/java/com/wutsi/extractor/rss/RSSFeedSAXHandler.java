@@ -32,6 +32,8 @@ public class RSSFeedSAXHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if ("item".equalsIgnoreCase(qName)) {
             item = new Item();
+        } else if ("enclosure".equals(qName)){
+            handleEnclosure(attributes);
         }
 
         text = new StringBuilder();
@@ -97,5 +99,22 @@ public class RSSFeedSAXHandler extends DefaultHandler {
             return null;
         }
         return str.trim().replaceAll("\\n", "");
+    }
+
+    private void handleEnclosure(Attributes attributes) {
+        String url = null;
+        String type = null;
+        for (int i=0, len=attributes.getLength() ; i<len ; i++){
+            String name = attributes.getLocalName(i);
+            if ("url".equalsIgnoreCase(name)){
+                url = attributes.getValue(i);
+            } else if ("type".equalsIgnoreCase(name)){
+                type = attributes.getValue(i);
+            }
+        }
+
+        if (type != null && type.startsWith("image/")){
+            item.addImageUrl(url);
+        }
     }
 }
