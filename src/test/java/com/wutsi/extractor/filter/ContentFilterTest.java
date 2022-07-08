@@ -30,4 +30,10 @@ public class ContentFilterTest extends AbstractFilterTest {
         filter = new ContentFilter(100);
         validateText("/content/journal_du_cameroon", filter);
     }
+
+    @Test
+    public void investiraucameroun() throws Exception {
+        filter = new ContentFilter(100);
+        validateText("/sanitizer/investir_au_cameroun", filter);
+    }
 }
