@@ -34,6 +34,6 @@ public class ContentFilterTest extends AbstractFilterTest {
     @Test
     public void investiraucameroun() throws Exception {
         filter = new ContentFilter(100);
-        validateText("/sanitizer/investir_au_cameroun", filter);
+        validateText("/content/investir_au_cameroun", filter);
     }
 }
