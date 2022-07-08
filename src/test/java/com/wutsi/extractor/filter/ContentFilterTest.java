@@ -42,4 +42,10 @@ public class ContentFilterTest extends AbstractFilterTest {
         filter = new ContentFilter(100);
         validateText("/content/camfoot", filter);
     }
+
+    @Test
+    public void jewanda() throws Exception {
+        filter = new ContentFilter(100);
+        validateText("/content/jewanda", filter);
+    }
 }

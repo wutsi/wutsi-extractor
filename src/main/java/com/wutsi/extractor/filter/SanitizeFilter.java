@@ -35,7 +35,9 @@ public class SanitizeFilter implements Filter<String> {
             "jeg_share_top_container",
             "jeg_post_tags",
             "jp-relatedposts",
-            "truncate-read-more"
+            "truncate-read-more",
+
+            "td-post-sharing"
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
             "head",

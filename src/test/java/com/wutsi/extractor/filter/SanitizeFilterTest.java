@@ -33,4 +33,10 @@ public class SanitizeFilterTest extends AbstractFilterTest {
     @Test
     public void camfoot() throws Exception {
         validateText("/sanitizer/camfoot", filter);
-    }}
+    }
+
+    @Test
+    public void jewanda() throws Exception {
+        validateText("/sanitizer/jewanda", filter);
+    }
+}
