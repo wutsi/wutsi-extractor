@@ -7,8 +7,8 @@ public class ContentExtractorTest extends AbstractFilterTest {
     ContentExtractor extractor = ContentExtractor.create(20);
 
     @Test
-    public void ntrjack() throws Exception {
-        test("/extractor/ntrjack");
+    public void camfoot() throws Exception {
+        test("/extractor/camfoot");
     }
 
     private void test(String path) throws Exception{

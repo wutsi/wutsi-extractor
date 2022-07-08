@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <commons-io.version>2.11.0</commons-io.version>
-        <jsoup.version>1.15.1</jsoup.version>
+        <jsoup.version>1.15.2</jsoup.version>
         <slf4j.version>1.7.36</slf4j.version>
 
         <junit.version>4.13.2</junit.version>
@@ -97,7 +97,7 @@
                     <target>${project.jdk.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-                <version>3.3</version>
+                <version>3.10.1</version>
             </plugin>
 
             <!-- UNIT TEST -->
@@ -115,7 +115,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>2.22.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -133,7 +133,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.4.201502262128</version>
+                <version>0.8.8</version>
 
                 <executions>
                     <execution>
