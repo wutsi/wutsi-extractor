@@ -27,8 +27,15 @@ public class SanitizeFilter implements Filter<String> {
             "embedly-card",
             "sidebar",
             "rrssb-buttons", // See https://github.com/AdamPS/rrssb-plus
-            "post-infos", // journalducameroon.com
-            "jeg_share_top_container" // JEG Plugin
+
+            // journalducameroon.com
+            "post-infos",
+
+            // camfoot.com
+            "jeg_share_top_container",
+            "jeg_post_tags",
+            "jp-relatedposts",
+            "truncate-read-more"
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
             "head",

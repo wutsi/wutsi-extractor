@@ -29,4 +29,8 @@ public class SanitizeFilterTest extends AbstractFilterTest {
     public void investiraucameroun() throws Exception {
         validateText("/sanitizer/investir_au_cameroun", filter);
     }
-}
+
+    @Test
+    public void camfoot() throws Exception {
+        validateText("/sanitizer/camfoot", filter);
+    }}
