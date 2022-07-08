@@ -25,7 +25,9 @@ public class SanitizeFilter implements Filter<String> {
             "nav",
             "addthis_tool",
             "embedly-card",
-            "sidebar"
+            "sidebar",
+            "rrssb-buttons",
+            "post-infos" // journalducameroon.com
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
             "head",
@@ -70,7 +72,6 @@ public class SanitizeFilter implements Filter<String> {
                 || isSocialLink(elt)
                 || isTagLink(elt)
                 || isBlacklistedClassOrId(elt)
-                || isMenu(elt)
         ;
     }
 

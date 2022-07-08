@@ -12,7 +12,7 @@ public class DownloaderTest {
 
     @Test
     public void testKamerKongossa() throws Exception {
-        String url = "https://kamerkongossa.cm/2020/01/07/a-yaounde-on-rencontre-le-sous-developpement-par-les-chemins-quon-emprunte-pour-leviter/";
+        String url = "https://www.google.ca";
         String html = downloader.download(new URL(url));
 
         assertFalse(html.isEmpty());
