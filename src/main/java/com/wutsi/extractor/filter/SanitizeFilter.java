@@ -26,8 +26,9 @@ public class SanitizeFilter implements Filter<String> {
             "addthis_tool",
             "embedly-card",
             "sidebar",
-            "rrssb-buttons",
-            "post-infos" // journalducameroon.com
+            "rrssb-buttons", // See https://github.com/AdamPS/rrssb-plus
+            "post-infos", // journalducameroon.com
+            "jeg_share_top_container" // JEG Plugin
     );
     private static List<String> TAG_BLACKLIST = Arrays.asList(
             "head",
@@ -72,6 +73,7 @@ public class SanitizeFilter implements Filter<String> {
                 || isSocialLink(elt)
                 || isTagLink(elt)
                 || isBlacklistedClassOrId(elt)
+//                || isMenu(elt)
         ;
     }
 
