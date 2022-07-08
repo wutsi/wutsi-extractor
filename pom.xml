@@ -14,7 +14,7 @@
         <project.sourceEncoding>UTF-8</project.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <commons-io.version>2.7</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <jsoup.version>1.13.1</jsoup.version>
         <slf4j.version>1.7.29</slf4j.version>
 
