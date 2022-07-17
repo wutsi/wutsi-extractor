@@ -39,4 +39,9 @@ public class SanitizeFilterTest extends AbstractFilterTest {
     public void jewanda() throws Exception {
         validateText("/sanitizer/jewanda", filter);
     }
+
+    @Test
+    public void arolketch() throws Exception {
+        validateText("/sanitizer/arol_ketch", filter);
+    }
 }

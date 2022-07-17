@@ -48,4 +48,10 @@ public class ContentFilterTest extends AbstractFilterTest {
         filter = new ContentFilter(100);
         validateText("/content/jewanda", filter);
     }
+
+    @Test
+    public void arolketch() throws Exception {
+        filter = new ContentFilter(100);
+        validateText("/content/arol_ketch", filter);
+    }
 }
