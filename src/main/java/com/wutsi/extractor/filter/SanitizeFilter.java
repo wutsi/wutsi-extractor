@@ -28,6 +28,7 @@ public class SanitizeFilter implements Filter<String> {
             "sidebar",
             "rrssb-buttons", // See https://github.com/AdamPS/rrssb-plus
             "the_champ_sharing_container", // https://github.com/wp-plugins/super-socializer
+            "a2a_kit", //https://www.addtoany.com/
 
             // journalducameroon.com
             "post-infos",
