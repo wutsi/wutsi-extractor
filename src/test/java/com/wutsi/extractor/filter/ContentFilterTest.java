@@ -54,4 +54,10 @@ public class ContentFilterTest extends AbstractFilterTest {
         filter = new ContentFilter(100);
         validateText("/content/arol_ketch", filter);
     }
+
+    @Test
+    public void people237() throws Exception {
+        filter = new ContentFilter(100);
+        validateText("/content/people237", filter);
+    }
 }

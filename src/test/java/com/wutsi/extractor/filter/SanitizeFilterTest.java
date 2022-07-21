@@ -44,4 +44,9 @@ public class SanitizeFilterTest extends AbstractFilterTest {
     public void arolketch() throws Exception {
         validateText("/sanitizer/arol_ketch", filter);
     }
+
+    @Test
+    public void people237() throws Exception {
+        validateText("/sanitizer/people237", filter);
+    }
 }
