@@ -3,9 +3,11 @@ package com.wutsi.extractor.rss;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RSSLoaderTest {
     private RSSLoader rss = new RSSLoader();
@@ -37,5 +39,17 @@ public class RSSLoaderTest {
         assertEquals("TIFOS", items.get(7).getAuthor());
         assertEquals("herve tcheps", items.get(8).getAuthor());
         assertEquals(null, items.get(9).getAuthor());
+    }
+
+    @Test
+    public void loadPeople237() throws Exception {
+        List<Item> items = rss.load(new URL("https://www.people237.com/feed"));
+        assertTrue(items.size() > 0);
+    }
+
+    @Test
+    public void loadCamfoot() throws Exception {
+        List<Item> items = rss.load(new URL("https://camfoot.com/feed"));
+        assertTrue(items.size() > 0);
     }
 }

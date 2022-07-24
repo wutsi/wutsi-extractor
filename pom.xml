@@ -35,14 +35,13 @@
             <version>${slf4j.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- TEST -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
-            <scope>test</scope>
         </dependency>
+
+        <!-- TEST -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
