@@ -35,9 +35,15 @@ public class SanitizeFilter implements Filter<String> {
 
             // camfoot.com
             "jeg_share_top_container",
+            "jeg_share_bottom_container",
             "jeg_post_tags",
             "jp-relatedposts",
             "truncate-read-more",
+            "jnews_author_box_container",
+            "jnews_related_post_container",
+            "jnews_prev_next_container",
+            "jnews_inline_related_post_wrapper",
+            "ads-wrapper",
 
             "td-post-sharing"
     );
