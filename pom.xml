@@ -12,7 +12,7 @@
         <project.sourceEncoding>UTF-8</project.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.13.0</commons-io.version>
         <jsoup.version>1.15.2</jsoup.version>
         <slf4j.version>1.7.36</slf4j.version>
 
